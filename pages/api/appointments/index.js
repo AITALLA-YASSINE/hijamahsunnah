@@ -6,29 +6,25 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+// 📧 Création transporteur (UNE SEULE FOIS)
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
+
 // 📧 Fonction envoi email
-async function sendConfirmationEmail(data) {
-  if (!process.env.GMAIL_APP_PASSWORD || !process.env.GMAIL_USER) {
-    console.log("❌ Email config manquante");
-    return;
-  }
-
+async function sendEmails(data) {
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true, // IMPORTANT
-      auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
-
-    // 🔍 Vérifie la connexion SMTP
     await transporter.verify();
     console.log("✅ SMTP prêt");
 
-    const info = await transporter.sendMail({
+    // 📧 EMAIL CLIENT
+    await transporter.sendMail({
       from: `"Hijama Sunnah" <${process.env.GMAIL_USER}>`,
       to: data.email,
       subject: "Confirmation de RDV - Hijama Sunnah",
@@ -57,7 +53,30 @@ Hijama Sunnah`,
       `,
     });
 
-    console.log("📧 Email envoyé :", info.messageId);
+    console.log("📧 Email client envoyé");
+
+    // 📧 EMAIL ADMIN (TOI)
+    await transporter.sendMail({
+      from: `"Hijama Sunnah" <${process.env.GMAIL_USER}>`,
+      to: process.env.ADMIN_EMAIL,
+      subject: "🆕 Nouveau rendez-vous",
+      html: `
+        <div style="font-family: Arial; max-width:500px;">
+          <h2>🆕 Nouveau rendez-vous</h2>
+          <ul>
+            <li><b>Nom :</b> ${data.first_name} ${data.last_name}</li>
+            <li><b>Email :</b> ${data.email}</li>
+            <li><b>Téléphone :</b> ${data.phone}</li>
+            <li><b>Date :</b> ${data.date}</li>
+            <li><b>Heure :</b> ${data.time_slot}</li>
+            <li><b>Prestation :</b> ${data.service_type || "Non précisée"}</li>
+            <li><b>Commentaire :</b> ${data.comment || "Aucun"}</li>
+          </ul>
+        </div>
+      `,
+    });
+
+    console.log("📧 Email admin envoyé");
 
   } catch (err) {
     console.error("❌ Email error:", err);
@@ -118,15 +137,18 @@ export default async function handler(req, res) {
 
     if (error) throw error;
 
-    // 📧 Envoi email (IMPORTANT: await)
-    console.log("📨 Envoi email à :", email);
+    console.log("📨 Envoi des emails...");
 
-    await sendConfirmationEmail({
+    // 📧 Envoi des emails
+    await sendEmails({
       first_name,
+      last_name,
+      phone,
       email,
       date,
       time_slot,
-      service_type
+      service_type,
+      comment
     });
 
     return res.status(200).json({
