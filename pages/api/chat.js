@@ -1,144 +1,153 @@
 const WHATSAPP = "07 43 56 51 89";
 
-// ─────────────────────────────────────────────────────────────
-// NORMALISATION INTELLIGENTE
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────
+// NORMALISATION
+// ─────────────────────────────────────────
 function norm(str) {
   return str
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9\s]/g, " ")
-    // corrections fréquentes utilisateurs
     .replace(/\b(sa|ca)\b/g, "ca")
     .replace(/\b(fais|fait|faire)\b/g, "faire")
-    .replace(/\b(bienfais|bienfait|bienfaits)\b/g, "bienfaits")
     .replace(/\b(seance|seances)\b/g, "seance")
     .replace(/\b(dur|duree|temps)\b/g, "duree")
     .replace(/\s+/g, " ")
     .trim();
 }
 
-// ─────────────────────────────────────────────────────────────
-// SCORE MATCH (clé de l’intelligence)
-// ─────────────────────────────────────────────────────────────
-function scoreMatch(normMsg, tags) {
+// ─────────────────────────────────────────
+// SCORE MATCH
+// ─────────────────────────────────────────
+function scoreMatch(msg, tags) {
   let score = 0;
 
   for (const tag of tags) {
     const t = norm(tag);
 
-    if (normMsg.includes(t)) {
-      score += t.length; // plus le mot est long, plus il pèse
+    if (msg.includes(t)) {
+      score += t.length;
     }
   }
 
   return score;
 }
 
-// ─────────────────────────────────────────────────────────────
-// FAQ AMÉLIORÉE
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────
+// FAQ INTELLIGENTE
+// ─────────────────────────────────────────
 const FAQ = [
 
-  // SALUTATION (faible priorité)
+  // SALUTATION
   {
     tags: ["bonjour", "salam", "salut", "hello"],
-    rep: "Bonjour ! Je suis l'assistante de Fatiha 😊 Comment puis-je vous aider ?",
+    rep: "Bonjour 😊 Je suis l'assistante de Fatiha. Comment puis-je vous aider ?",
+  },
+
+  // DÉFINITION HIJAMA
+  {
+    tags: [
+      "c est quoi hijama", "hijama c est quoi",
+      "definition hijama", "hijama cest quoi",
+      "c quoi hijama", "expliquer hijama"
+    ],
+    rep: "La hijama est une méthode naturelle qui consiste à utiliser des ventouses pour éliminer les toxines du corps et améliorer la circulation sanguine.",
+  },
+
+  // POUR QUI (JEUNES / ÂGE)
+  {
+    tags: [
+      "pour qui", "pour les jeunes", "age",
+      "a partir de quel age", "jeune",
+      "adolescent", "enfant"
+    ],
+    rep: "Oui 😊 La hijama peut être faite pour les jeunes comme pour les adultes. Elle est simplement adaptée selon l’âge et la condition de la personne.",
   },
 
   // BIENFAITS
   {
     tags: [
-      "bienfaits", "bienfait", "a quoi sert", "utilite",
-      "pourquoi faire", "effets", "avantages hijama"
+      "bienfaits", "a quoi sert", "pourquoi",
+      "effets", "avantages"
     ],
-    rep: "La hijama permet de détoxifier le corps, améliorer la circulation sanguine, réduire le stress, soulager les douleurs (dos, migraines, règles) et renforcer le système immunitaire.",
-  },
-
-  // ADAPTATION / MALADIES
-  {
-    tags: [
-      "adapte", "mon cas", "ma situation", "efficace",
-      "soulage", "soigne", "probleme"
-    ],
-    rep: "La hijama peut soulager fatigue, stress, douleurs, migraines, troubles hormonaux et circulatoires. Un avis personnalisé est recommandé selon votre situation.",
-  },
-
-  // CONTRE-INDICATIONS
-  {
-    tags: [
-      "danger", "contre indication", "enceinte",
-      "grossesse", "anticoagulant", "chimio"
-    ],
-    rep: "Les contre-indications principales : anticoagulants, début de grossesse, infections en cours ou traitements lourds (chimiothérapie...).",
+    rep: "La hijama aide à détoxifier le corps, améliorer la circulation, réduire le stress, soulager les douleurs (dos, migraines, règles) et renforcer l’immunité.",
   },
 
   // DOULEUR
   {
-    tags: ["mal", "douleur", "douloureux", "ca fait mal"],
-    rep: "Pas du tout ! Les incisions sont très superficielles. Vous pouvez ressentir de légers picotements seulement.",
-  },
-
-  // DURÉE
-  {
-    tags: ["duree", "combien de temps", "temps seance"],
-    rep: "La séance dure environ 30 à 45 minutes.",
-  },
-
-  // APRÈS SÉANCE
-  {
-    tags: [
-      "apres seance", "apres hijama", "que faire apres",
-      "conseil apres", "recommandation apres"
-    ],
-    rep: "Après la séance : reposez-vous, buvez beaucoup d'eau, évitez le sport pendant 24 à 48h et privilégiez une alimentation légère.",
-  },
-
-  // ALIMENTATION
-  {
-    tags: ["manger", "alimentation", "quoi manger", "eviter"],
-    rep: "Évitez le gras après la séance. Privilégiez une alimentation légère et buvez beaucoup d'eau.",
+    tags: ["mal", "douleur", "ca fait mal", "douloureux"],
+    rep: "Pas du tout 😊 Les incisions sont très superficielles. Vous pouvez ressentir de légers picotements seulement.",
   },
 
   // DÉROULEMENT
   {
     tags: [
       "deroulement", "comment ca se passe",
-      "etapes", "procedure"
+      "etapes", "procedure", "seance"
     ],
-    rep: "La séance se déroule ainsi : ventouses pour stimuler la circulation, micro-incisions superficielles, puis extraction des toxines. Durée : 30 à 45 min.",
+    rep: "La séance se déroule en 3 étapes : pose des ventouses, micro-incisions très légères, puis extraction des toxines. Cela dure environ 30 à 45 minutes.",
   },
 
-  // TYPES
+  // DURÉE
   {
-    tags: [
-      "type hijama", "combien de types",
-      "hijama seche", "hijama humide", "difference"
-    ],
-    rep: "Il existe 2 types : hijama sèche (sans saignée) et hijama humide (avec micro-incisions). Fatiha utilise les deux.",
+    tags: ["duree", "combien de temps"],
+    rep: "La séance dure environ 30 à 45 minutes.",
+  },
+
+  // APRÈS
+  {
+    tags: ["apres", "que faire apres", "conseil apres"],
+    rep: "Après la séance : reposez-vous, buvez beaucoup d’eau et évitez le sport pendant 24 à 48h.",
+  },
+
+  // ALIMENTATION
+  {
+    tags: ["manger", "alimentation"],
+    rep: "Après la hijama, privilégiez une alimentation légère et évitez les aliments gras.",
+  },
+
+  // CONTRE-INDICATIONS
+  {
+    tags: ["danger", "risque", "contre indication"],
+    rep: "Certaines situations nécessitent un avis : grossesse débutante, anticoagulants, maladies lourdes…",
   },
 
   // PRIX
   {
-    tags: ["prix", "tarif", "combien euro"],
-    rep: "Le prix de la séance est de 45€.",
+    tags: ["prix", "tarif", "combien"],
+    rep: "Le tarif de la séance est de 45€.",
   },
 
   // LIEU
   {
-    tags: ["adresse", "lieu", "domicile", "ou se trouve"],
-    rep: "Les séances se font au domicile de Fatiha. Contactez-la sur WhatsApp pour l'adresse.",
+    tags: ["adresse", "ou", "lieu"],
+    rep: "Les séances se font au domicile de Fatiha. Contactez-la sur WhatsApp pour plus d’informations.",
   },
 ];
 
-// ─────────────────────────────────────────────────────────────
-// LOGIQUE INTELLIGENTE
-// ─────────────────────────────────────────────────────────────
-function getBotResponse(message) {
-  const normMsg = norm(message);
+// ─────────────────────────────────────────
+// FALLBACK INTELLIGENT
+// ─────────────────────────────────────────
+function fallback(msg) {
+  if (msg.includes("hijama")) {
+    return "Tu souhaites des infos sur la hijama 😊 (douleur, bienfaits, déroulement, prix...) ?";
+  }
 
-  if (normMsg.length < 3) {
+  if (msg.includes("mal") || msg.includes("douleur")) {
+    return "La hijama est très peu douloureuse 😊 Tu veux que je t’explique comment ça se passe ?";
+  }
+
+  return "Je n’ai pas bien compris 😊 Tu peux préciser ta question (douleur, prix, déroulement...) ou contacter Fatiha au " + WHATSAPP;
+}
+
+// ─────────────────────────────────────────
+// LOGIQUE PRINCIPALE
+// ─────────────────────────────────────────
+function getBotResponse(message) {
+  const msg = norm(message);
+
+  if (msg.length < 2) {
     return "Peux-tu préciser ta question ? 😊";
   }
 
@@ -146,7 +155,7 @@ function getBotResponse(message) {
   let bestResponse = null;
 
   for (const entry of FAQ) {
-    const score = scoreMatch(normMsg, entry.tags);
+    const score = scoreMatch(msg, entry.tags);
 
     if (score > bestScore) {
       bestScore = score;
@@ -154,22 +163,24 @@ function getBotResponse(message) {
     }
   }
 
-  if (bestScore > 3) return bestResponse;
+  if (bestScore > 3) {
+    return bestResponse;
+  }
 
-  return "Je n'ai pas bien compris 😊 Tu peux préciser ta question (douleur, prix, déroulement...) ou contacter Fatiha au " + WHATSAPP;
+  return fallback(msg);
 }
 
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────
 // API HANDLER
-// ─────────────────────────────────────────────────────────────
-export default async function handler(req, res) {
+// ─────────────────────────────────────────
+export default function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   const { message } = req.body;
 
-  if (!message || typeof message !== "string") {
+  if (!message) {
     return res.status(400).json({ error: "Message requis" });
   }
 
