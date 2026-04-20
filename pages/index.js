@@ -848,7 +848,7 @@ const Footer = () => (
           <h4 className="font-semibold text-sm mb-3">Contact</h4>
           <ul className="space-y-1 text-gray-400 text-xs">
             <li>{WHATSAPP_DISPLAY}</li>
-            <li>elorffatiha1189@gmail.com</li>
+            <li>soinshijamasunnah@gmail.com</li>
             <li>Sam-Dim: 9h-18h | Lun-Ven: 18h-20h</li>
           </ul>
         </div>
