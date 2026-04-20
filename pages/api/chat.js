@@ -50,7 +50,7 @@ const FAQ = [
     tags: [
       "c est quoi hijama", "hijama c est quoi",
       "definition hijama", "hijama cest quoi",
-      "c quoi hijama", "expliquer hijama"
+      "c quoi hijama", "expliquer hijama","c est quoi la hijama","cest quoi la hijama", "cest quoi une hijama","hijama"
     ],
     rep: "La hijama est une méthode naturelle qui consiste à utiliser des ventouses pour éliminer les toxines du corps et améliorer la circulation sanguine.",
   },
