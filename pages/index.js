@@ -729,7 +729,7 @@ const ContactSection = () => (
           </a>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-          <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?crop=entropy&cs=srgb&fm=jpg&q=85" alt="Spa" className="rounded-3xl w-full h-[350px] object-cover" />
+          <img src="https://images.unsplash.com/photo-1752769041878-f24e37fd6aea?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1NzZ8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBtaW5pbWFsaXN0JTIwc3BhJTIwaW50ZXJpb3J8ZW58MHx8fHwxNzc2MDM3NjUwfDA&ixlib=rb-4.1.0&q=85" alt="Spa" className="rounded-3xl w-full h-[350px] object-cover" />
         </motion.div>
       </div>
     </div>
