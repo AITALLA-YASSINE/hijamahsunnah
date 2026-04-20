@@ -91,7 +91,7 @@ const FAQ = [
 
   // DURÉE
   {
-    tags: ["duree", "combien de temps"],
+    tags: ["duree", "combien de temps","minutes", "minute" ,"heure"],
     rep: "La séance dure environ 30 à 45 minutes.",
   },
 
