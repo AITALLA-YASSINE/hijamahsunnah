@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY // ⚠️ IMPORTANT
+  process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
 export default async function handler(req, res) {
@@ -17,29 +17,42 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log("DATE REÇUE :", date);
-
-    const { data, error } = await supabase
-      .from("appointments")
+    // 1. On récupère les créneaux déjà réservés dans la table 'rendez_vous'
+    // Attention : Vérifie bien que c'est la table 'rendez_vous' que tu utilises
+    const { data: bookedData, error } = await supabase
+      .from("rendez_vous") 
       .select("time_slot")
       .eq("date", date);
 
-    if (error) {
-      console.error("Supabase error:", error);
-      return res.status(500).json({ error: error.message });
+    if (error) throw error;
+
+    // On crée une liste simple des heures occupées : ["19:00", "14:30"]
+    const bookedSlots = bookedData.map(item => item.time_slot);
+
+    // 2. Déterminer si c'est le week-end
+    const selectedDate = new Date(date);
+    const dayOfWeek = selectedDate.getDay(); 
+    const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+
+    // 3. Définir la liste totale des créneaux possibles
+    let allSlots = [];
+    if (isWeekend) {
+      allSlots = [
+        "18:00", "18:30", "19:00", "19:30", "20:00"
+      ];
+    } else {
+      allSlots = [
+
+        "09:00", "09:30", "10:00", "10:30", "11:00", "11:30", 
+        "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", 
+        "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"
+      ];
     }
 
-    const allSlots = [
-      "09:00", "10:00", "11:00",
-      "14:00", "15:00", "16:00"
-    ];
+    // 4. LE FILTRE MAGIQUE : On ne garde que les créneaux qui ne sont PAS dans bookedSlots
+    const availableSlots = allSlots.filter(slot => !bookedSlots.includes(slot));
 
-    const bookedSlots = data.map(item => item.time_slot);
-
-    const availableSlots = allSlots.filter(
-      slot => !bookedSlots.includes(slot)
-    );
-
+    // On renvoie la liste filtrée. Si 19:00 est pris, il ne sera plus dans la liste.
     return res.status(200).json(availableSlots);
 
   } catch (err) {
