@@ -713,7 +713,7 @@ const ContactSection = () => (
             </div>
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 bg-[#A8B5A2]/10 rounded-xl flex items-center justify-center flex-shrink-0"><Mail className="w-4 h-4 text-[#A8B5A2]" /></div>
-              <div><h4 className="font-semibold text-[#2D312E] text-sm">Email</h4><p className="text-[#6C706B] text-sm">elorffatiha1189@gmail.com</p></div>
+              <div><h4 className="font-semibold text-[#2D312E] text-sm">Email</h4><p className="text-[#6C706B] text-sm">soinshijamasunnah@gmail.com</p></div>
             </div>
             <div className="flex items-start gap-4">
               <div className="w-10 h-10 bg-[#A8B5A2]/10 rounded-xl flex items-center justify-center flex-shrink-0"><Clock className="w-4 h-4 text-[#A8B5A2]" /></div>
