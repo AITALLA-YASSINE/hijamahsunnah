@@ -854,7 +854,7 @@ const Footer = () => (
         </div>
       </div>
       <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-xs">
-        <p>© {new Date().getFullYear()} Hijama Sunnah — ELORF Fatiha</p>
+        <p>© {new Date().getFullYear()} Hijama Sunnah — Fatiha</p>
       </div>
     </div>
   </footer>
