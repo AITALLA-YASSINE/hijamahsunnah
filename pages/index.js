@@ -34,7 +34,7 @@ const API = "/api";
 const WHATSAPP_NUMBER = "33743565189";
 const WHATSAPP_DISPLAY = "07 43 56 51 89";
 
-const diplomaImage = "https://imgur.com/a/FaBYqt7";
+const diplomaImage = "https://customer-assets.emergentagent.com/job_hijama-wellness-1/artifacts/ubl5uoz2_WhatsApp%20Image%202026-04-14%20at%2000.54.05.jpeg";
 const bookImages = [
   "https://customer-assets.emergentagent.com/job_hijama-wellness-1/artifacts/f1txo1ew_WhatsApp%20Image%202026-04-14%20444at%2000.59.19.jpeg",
   "https://customer-assets.emergentagent.com/job_hijama-wellness-1/artifacts/gt6bf0ny_WhatsApp%20Image%202026-04-14%20a44444t%2000.59.19.jpeg",
