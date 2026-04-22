@@ -218,7 +218,7 @@ const CertificationSection = () => (
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <span className="text-xs tracking-[0.2em] uppercase font-semibold text-[#C5A059] mb-4 block">Votre praticienne</span>
-          <h2 className="font-serif text-3xl md:text-4xl text-[#2D312E] mb-4">ELORF Fatiha</h2>
+          <h2 className="font-serif text-3xl md:text-4xl text-[#2D312E] mb-4">Fatiha</h2>
           <h3 className="font-serif text-lg md:text-xl text-[#A8B5A2] mb-4">Infirmière diplômée d'état</h3>
           <p className="text-[#6C706B] mb-6 leading-relaxed text-sm md:text-base">
             Praticienne certifiée en hijama, je vous accueille dans un cadre professionnel et bienveillant. Mon expérience en tant qu'infirmière me permet de vous garantir une hygiène irréprochable et des soins de qualité.
@@ -232,7 +232,7 @@ const CertificationSection = () => (
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
           <div className="rounded-3xl overflow-hidden shadow-2xl">
-            <img src={diplomaImage} alt="Diplôme ELORF Fatiha" className="w-full h-auto object-cover" />
+            <img src={diplomaImage} alt="Diplôme Fatiha" className="w-full h-auto object-cover" />
           </div>
         </motion.div>
       </div>
@@ -834,7 +834,7 @@ const Footer = () => (
       <div className="grid md:grid-cols-3 gap-8">
         <div>
           <h3 className="font-serif text-xl mb-3">Hijama <span className="text-[#C5A059]">Sunnah</span></h3>
-          <p className="text-gray-400 text-xs">ELORF Fatiha — Infirmière diplômée d'état. Exclusivement réservé aux femmes.</p>
+          <p className="text-gray-400 text-xs">Fatiha — Infirmière diplômée d'état. Exclusivement réservé aux femmes.</p>
         </div>
         <div>
           <h4 className="font-semibold text-sm mb-3">Navigation</h4>
@@ -865,7 +865,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Hijama Sunnah — ELORF Fatiha</title>
+        <title>Hijama Sunnah — Fatiha</title>
         <meta name="description" content="Ventousothérapie professionnelle réservée aux femmes. Hijama sèche, humide, sportive et visage. Réservation en ligne." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
