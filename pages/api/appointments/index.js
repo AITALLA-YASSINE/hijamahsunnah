@@ -22,6 +22,7 @@ async function sendEmails(data) {
   try {
     await transporter.verify();
     console.log("✅ SMTP prêt");
+    const ADDRESS = "80, Ter route de bondy 93600";
 
     // 📧 EMAIL CLIENT
     await transporter.sendMail({
@@ -35,6 +36,8 @@ Votre rendez-vous est confirmé :
 📅 Date : ${data.date}
 🕐 Heure : ${data.time_slot}
 💆 Prestation : ${data.service_type || "Non précisée"}
+Adresse : ${ADDRESS}
+
 
 À bientôt !
 Hijama Sunnah`,
@@ -47,6 +50,7 @@ Hijama Sunnah`,
             <li><b>Date :</b> ${data.date}</li>
             <li><b>Heure :</b> ${data.time_slot}</li>
             <li><b>Prestation :</b> ${data.service_type || "Non précisée"}</li>
+             <li><b>Adresse :</b> ${ADDRESS}</li>
           </ul>
           <p>À bientôt !</p>
         </div>
