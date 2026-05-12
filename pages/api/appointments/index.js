@@ -38,7 +38,7 @@ Votre rendez-vous est confirmé :
 💆 Prestation : ${data.service_type || "Non précisée"}
 Adresse : ${ADDRESS}
 
-Veuillez me contacter afin que je puisse vous ouvrir une fois sur place. 
+
 
 À bientôt !
 Hijama Sunnah`,
@@ -53,6 +53,8 @@ Hijama Sunnah`,
             <li><b>Prestation :</b> ${data.service_type || "Non précisée"}</li>
              <li><b>Adresse :</b> ${ADDRESS}</li>
           </ul>
+
+          <p>Veuillez me contacter afin que je puisse vous ouvrir une fois sur place.</p>
           <p>À bientôt !</p>
         </div>
       `,
