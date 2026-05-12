@@ -38,6 +38,7 @@ Votre rendez-vous est confirmé :
 💆 Prestation : ${data.service_type || "Non précisée"}
 Adresse : ${ADDRESS}
 
+Veuillez me contacter afin que je puisse vous ouvrir une fois sur place. 
 
 À bientôt !
 Hijama Sunnah`,
