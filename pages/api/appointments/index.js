@@ -55,6 +55,7 @@ Hijama Sunnah`,
           </ul>
 
           <p>Veuillez me contacter afin que je puisse vous ouvrir une fois sur place.</p>
+          <p>0743565189.</p>
           <p>À bientôt !</p>
         </div>
       `,
